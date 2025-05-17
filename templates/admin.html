@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2>Admin Panel</h2>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Manage Software</h5>
+            </div>
+            <div class="card-body">
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSoftwareModal">
+                    Add New Software
+                </button>
+                
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Sales</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for s in software %}
+                            <tr>
+                                <td>{{ s.name }}</td>
+                                <td>${{ "%.2f"|format(s.price) }}</td>
+                                <td>{{ s.purchases|length }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger">Delete</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Software Modal -->
+<div class="modal fade" id="addSoftwareModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Software</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addSoftwareForm">
+                    <div class="mb-3">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label>Price</label>
+                        <input type="number" class="form-control" name="price" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Image URL</label>
+                        <input type="url" class="form-control" name="image_url">
+                    </div>
+                    <div class="mb-3">
+                        <label>License Key</label>
+                        <input type="text" class="form-control" name="license_key" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="addSoftware()">Add Software</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function addSoftware() {
+    const form = document.getElementById('addSoftwareForm');
+    const formData = new FormData(form);
+    
+    fetch('/admin/add_software', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(formData))
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            alert(data.message);
+            location.reload();
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+{% endblock %}

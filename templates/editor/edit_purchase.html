@@ -1,0 +1,25 @@
+{% extends "editor/base.html" %}
+
+{% block title %}Edit Purchase{% endblock %}
+
+{% block editor_content %}
+<div class="container mt-4">
+    <h2>Edit Purchase</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="license_key" class="form-label">License Key</label>
+            <input type="text" class="form-control" id="license_key" name="license_key" value="{{ purchase.license_key }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="user" class="form-label">User</label>
+            <p>{{ purchase.user.username }} ({{ purchase.user.email }})</p>
+        </div>
+        <div class="mb-3">
+            <label for="software" class="form-label">Software</label>
+            <p>{{ purchase.software.name }} (${{ "%.2f"|format(purchase.software.price) }})</p>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{{ url_for('editor') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

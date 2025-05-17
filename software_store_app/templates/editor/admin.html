@@ -1,0 +1,44 @@
+{% extends "editor/editor_base.html" %}
+
+{% block editor_content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Manage Users</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">View and manage all users in the system.</p>
+                    <a href="{{ url_for('editor') }}" class="btn btn-primary">View Users</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Manage Software</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Add new software products and manage existing ones.</p>
+                    <a href="{{ url_for('add_software') }}" class="btn btn-primary">Add Software</a>
+                    <a href="{{ url_for('editor') }}" class="btn btn-secondary mt-2">View Software</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Manage Purchases</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">View and manage all purchases.</p>
+                    <a href="{{ url_for('editor') }}" class="btn btn-primary">View Purchases</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
